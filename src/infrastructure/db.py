@@ -5,6 +5,5 @@ db = SQLAlchemy()
 
 def init_db(app):
     db.init_app(app)
-    # Si necesitas crear las tablas
     with app.app_context():
         db.create_all()

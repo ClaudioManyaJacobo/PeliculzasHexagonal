@@ -18,8 +18,9 @@
                     <th>Nombre</th>
                     <th>Año</th>
                     <th>Sinopsis</th>
-                    <th>Duracion</th>
+                    <th>Duración</th>
                     <th>Director</th>
+                    <th>Géneros</th>
                 </tr>
             </thead>
             <tbody>
@@ -31,7 +32,12 @@
                         <td>{{ pelicula.sinopsis }}</td>
                         <td>{{ pelicula.duracion }} min</td>
                         <td>{{ pelicula.director }}</td>
-
+                        <td>
+                            <!-- Mostrar los géneros asociados -->
+                            {% for genero in pelicula.generos %}
+                                <span>{{ genero }}</span>{% if not loop.last %}, {% endif %}
+                            {% endfor %}
+                        </td>
                     </tr>
                 {% endfor %}
             </tbody>

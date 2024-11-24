@@ -1,7 +1,8 @@
 from flask import Flask, jsonify
 from sqlalchemy.sql import text
 from src.infrastructure.db import db
-from src.adapters.controllers.pelicula_controller import pelicula_bp  # Importa el blueprint
+from src.adapters.controllers.pelicula_controller import pelicula_bp
+from src.adapters.controllers.genero_controller import genero_bp
 
 # Inicializa la aplicación Flask
 app = Flask(__name__)
@@ -15,6 +16,7 @@ db.init_app(app)
 
 # Registra el blueprint
 app.register_blueprint(pelicula_bp)
+app.register_blueprint(genero_bp)
 
 with app.app_context():
     db.create_all()

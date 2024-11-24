@@ -24,7 +24,14 @@
         <label for="director">Director:</label>
         <input type="text" id="director" name="director" required><br><br>
 
-        <button type="submit">Agregar Película</button>
+        <label for="generos">Generos:</label>
+        <select id="generos" name="generos" multiple>
+            {% for genero in generos %}
+                <option value="{{ genero.id }}">{{ genero.name }}</option>
+            {% endfor %}
+        </select>
+        
     </form>
+    <button type="submit">Agregar Película</button>
 </body>
 </html>
