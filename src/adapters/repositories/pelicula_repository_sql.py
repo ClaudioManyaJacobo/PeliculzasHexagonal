@@ -14,10 +14,18 @@ class PeliculaRepositorySQL:
         peliculas = self.db.session.query(Pelicula).options(joinedload(Pelicula.generos)).all()
         return peliculas
 
-    def agregar_pelicula(self, nombre, duracion, sinopsis, anio, director, generos):
+    def agregar_pelicula(self, nombre, duracion, sinopsis, anio, director, url_video, generos, imagen):
         # Crear una nueva película
-        pelicula = Pelicula(nombre=nombre, duracion=duracion, sinopsis=sinopsis, anio=anio, director=director)
-        
+        pelicula = Pelicula(
+            nombre=nombre, 
+            duracion=duracion, 
+            sinopsis=sinopsis, 
+            anio=anio, 
+            director=director, 
+            url_video=url_video,
+            imagen=imagen
+        )
+
         # Obtener los géneros seleccionados por el id y asociarlos con la película
         for genero_id in generos:
             genero = Genero.query.get(genero_id)  # Obtener el género por ID
@@ -27,5 +35,5 @@ class PeliculaRepositorySQL:
         # Guardar la película y los géneros asociados
         self.db.session.add(pelicula)
         self.db.session.commit()
-
+        
         return pelicula

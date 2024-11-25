@@ -1,0 +1,20 @@
+body{
+    background-color: #000000;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    
+}
+.pelicula-card {
+    background-color: rgba(255, 255, 255, 0.8); /* Fondo blanco con transparencia */
+    border: 1px solid #ddd; /* Borde suave */
+    border-radius: 10px; /* Esquinas redondeadas */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+    padding: 20px;
+    transition: all 0.3s ease;
+}
+
+.pelicula-card:hover {
+    transform: translateY(-5px); /* Efecto de elevación al pasar el ratón */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Aumenta la sombra al hacer hover */
+}

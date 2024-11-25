@@ -5,46 +5,61 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Listado de Películas</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
     <div class="container mt-5">
-        <h1 class="text-center">Películas</h1>
+        <h1 class="text-center mb-4">Listado de Películas</h1>
+        
+        <!-- Mostrar lista de películas como tarjetas -->
+        <div class="row">
+            {% for pelicula in peliculas %}
+                <div class="col-12 col-md-4 mb-4">
+                    <div class="card pelicula-card">
+                        <div class="card-body">
+                            <h2 class="card-title">{{ pelicula.nombre }}</h2>
+                            <div style="text-align: center;">
+                                {% if pelicula.imagen %}
+                                    <img src="data:image/jpeg;base64,{{ pelicula.imagen }}" alt="Imagen de la película" style="max-width: 200px; max-height: 200px;" />
+                                {% else %}
+                                    <p>No hay imagen disponible</p>
+                                {% endif %}
+                            </div>
+                            
 
-        <!-- Mostrar lista de películas -->
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nombre</th>
-                    <th>Año</th>
-                    <th>Sinopsis</th>
-                    <th>Duración</th>
-                    <th>Director</th>
-                    <th>Géneros</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for pelicula in peliculas %}
-                    <tr>
-                        <td>{{ pelicula.id }}</td>
-                        <td>{{ pelicula.nombre }}</td>
-                        <td>{{ pelicula.anio }}</td>
-                        <td>{{ pelicula.sinopsis }}</td>
-                        <td>{{ pelicula.duracion }} min</td>
-                        <td>{{ pelicula.director }}</td>
-                        <td>
-                            <!-- Mostrar los géneros asociados -->
-                            {% for genero in pelicula.generos %}
-                                <span>{{ genero }}</span>{% if not loop.last %}, {% endif %}
-                            {% endfor %}
-                        </td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+                            <h6 class="card-subtitle mb-2 text-muted">Año: {{ pelicula.anio }}</h6>
+                            <p><strong>Director:</strong> {{ pelicula.director }}</p>
+                            <p><strong>Duración:</strong> {{ pelicula.duracion }} min</p>
+                            <p><strong>Sinopsis:</strong> {{ pelicula.sinopsis }}</p>
+                            <p><strong>Géneros:</strong> 
+                                {% for genero in pelicula.generos %}
+                                    <span>{{ genero }}</span>{% if not loop.last %}, {% endif %}
+                                {% endfor %}
+                            </p>
+                            <td>
+                                <iframe 
+                                    width="280" 
+                                    height="158" 
+                                    src="{{ pelicula.url_video }}" 
+                                    title="YouTube video player" 
+                                    frameborder="0" 
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                                    referrerpolicy="strict-origin-when-cross-origin" 
+                                    allowfullscreen>
+                                </iframe>
+                            </td>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
 
         <!-- Botón para agregar una nueva película -->
-        <a href="{{ url_for('pelicula_bp.mostrar_formulario_agregar') }}" class="btn btn-primary">Agregar Película</a>
+        <div class="text-center mt-4">
+            <a href="{{ url_for('pelicula_bp.mostrar_formulario_agregar') }}" class="btn btn-primary">Agregar Película</a>
+        </div>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

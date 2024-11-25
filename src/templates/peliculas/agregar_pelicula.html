@@ -7,8 +7,9 @@
     <title>Agregar Película</title>
 </head>
 <body>
+
     <h1>Agregar Película</h1>
-    <form action="/peliculas/agregar" method="POST">
+    <form action="{{ url_for('pelicula_bp.agregar_pelicula') }}" method="POST" enctype="multipart/form-data">
         <label for="nombre">Nombre:</label>
         <input type="text" id="nombre" name="nombre" required><br><br>
 
@@ -24,14 +25,20 @@
         <label for="director">Director:</label>
         <input type="text" id="director" name="director" required><br><br>
 
+        <label for="url_video">Url del video:</label>
+        <input type="text" id="url_video" name="url_video" required><br><br>
+
         <label for="generos">Generos:</label>
         <select id="generos" name="generos" multiple>
             {% for genero in generos %}
                 <option value="{{ genero.id }}">{{ genero.name }}</option>
             {% endfor %}
         </select>
+
+        <input type="file" name="imagen">
         
+        <button type="submit">Agregar Película</button>
     </form>
-    <button type="submit">Agregar Película</button>
+    
 </body>
 </html>
