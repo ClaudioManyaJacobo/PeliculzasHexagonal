@@ -29,6 +29,11 @@
                                 <span>{{ genero }}</span>{% if not loop.last %}, {% endif %}
                             {% endfor %}
                         </p>
+                        <p><strong>Actores:</strong> 
+                            {% for actor in pelicula.actores %}
+                                <span>{{ actor }}</span>{% if not loop.last %}, {% endif %}
+                            {% endfor %}
+                        </p>
                         <iframe 
                             width="360" 
                             height="202" 

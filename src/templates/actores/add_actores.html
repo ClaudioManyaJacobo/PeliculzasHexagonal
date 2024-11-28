@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Agregar Actor</title>
+</head>
+<body>
+    <h1>Agregar un Nuevo Actor</h1>
+    <form action="{{ url_for('actor_bp.agregar_actor') }}" method="post" enctype="multipart/form-data">
+        <div>
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" required>
+        </div>
+        <div>
+            <label for="url_actor">URL del Actor:</label>
+            <input type="text" id="url_actor" name="url_actor">
+        </div>
+        <div>
+            <label for="imagen">Imagen:</label>
+            <input type="file" id="imagen" name="imagen" accept="image/*" required>
+        </div>
+        <div>
+            <button type="submit">Agregar Actor</button>
+        </div>
+    </form>
+</body>
+</html>

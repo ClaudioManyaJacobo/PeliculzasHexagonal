@@ -36,6 +36,14 @@
             {% endfor %}
         </select>
 
+            <!-- Nuevo selector para los actores -->
+        <label for="actores">Actores:</label>
+        <select id="actores" name="actores" multiple>
+            {% for actor in actores %}
+                <option value="{{ actor.id }}">{{ actor.nombre }}</option>
+            {% endfor %}
+        </select><br><br>
+
         <input type="file" name="imagen">
         <div>
             <button type="submit">Agregar Película</button>

@@ -58,6 +58,18 @@
         </div>
 
         <div>
+            <!-- Campo Géneros -->
+            <label for="actores">Actores:</label>
+            <select id="actores" name="actores" multiple required>
+                {% for actor in actores %}
+                    <option value="{{ actor.id }}" {% if actor.nombre in pelicula['actores'] %}selected{% endif %}>
+                        {{ actor.nombre }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div>
             <!-- Campo Imagen -->
             <label for="imagen">Imagen:</label>
             <input type="file" id="imagen" name="imagen" accept="image/*">
