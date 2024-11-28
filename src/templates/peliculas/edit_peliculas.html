@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Película</title>
+    
+</head>
+<body>
+    <h1>Editar Película</h1>
+    <form action="{{ url_for('pelicula_bp.editar_pelicula', pelicula_id=pelicula['id']) }}" method="POST" enctype="multipart/form-data">
+        <div>
+            <!-- Campo Nombre -->
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" value="{{ pelicula['nombre'] }}" required>
+        </div>
+        
+        <div>
+            <!-- Campo Duración -->
+            <label for="duracion">Duración (minutos):</label>
+            <input type="number" id="duracion" name="duracion" value="{{ pelicula['duracion'] }}" required>
+        </div>
+        
+        <div>
+            <!-- Campo Sinopsis -->
+            <label for="sinopsis">Sinopsis:</label>
+            <textarea id="sinopsis" name="sinopsis" required>{{ pelicula['sinopsis'] }}</textarea>
+        </div>
+        
+        <div>
+            <!-- Campo Año -->
+            <label for="anio">Año:</label>
+            <input type="number" id="anio" name="anio" value="{{ pelicula['anio'] }}" required>
+        </div>
+
+        <div>
+            <!-- Campo Director -->
+            <label for="director">Director:</label>
+            <input type="text" id="director" name="director" value="{{ pelicula['director'] }}" required>
+        </div>
+
+        <div>
+            <!-- Campo URL de Video -->
+            <label for="url_video">URL del Video:</label>
+            <input type="url" id="url_video" name="url_video" value="{{ pelicula['url_video'] }}" required>
+        </div>
+
+        <div>
+            <!-- Campo Géneros -->
+            <label for="generos">Géneros:</label>
+            <select id="generos" name="generos" multiple required>
+                {% for genero in generos %}
+                    <option value="{{ genero.id }}" {% if genero.name in pelicula['generos'] %}selected{% endif %}>
+                        {{ genero.name }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div>
+            <!-- Campo Imagen -->
+            <label for="imagen">Imagen:</label>
+            <input type="file" id="imagen" name="imagen" accept="image/*">
+            {% if pelicula['imagen'] %}
+                <p>Imagen actual:</p>
+                <img src="data:image/png;base64,{{ pelicula['imagen'] }}" alt="Imagen de la película" style="max-width: 200px;">
+            {% endif %}
+        </div>
+        
+        <button type="submit">Guardar Cambios</button>
+    </form>
+    <a href="{{ url_for('pelicula_bp.obtener_peliculas') }}">Cancelar</a>
+</body>
+</html>

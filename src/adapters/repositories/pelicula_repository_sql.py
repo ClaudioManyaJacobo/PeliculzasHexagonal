@@ -15,6 +15,10 @@ class PeliculaRepositorySQL:
         return peliculas
 
     def agregar_pelicula(self, nombre, duracion, sinopsis, anio, director, url_video, generos, imagen):
+
+        pelicula_existente = Pelicula.query.filter_by(nombre=nombre).first()
+        if pelicula_existente:
+            raise ValueError(f"Ya existe una película con el nombre '{nombre}'.")
         # Crear una nueva película
         pelicula = Pelicula(
             nombre=nombre, 
@@ -36,4 +40,48 @@ class PeliculaRepositorySQL:
         self.db.session.add(pelicula)
         self.db.session.commit()
         
+        return pelicula
+
+    def obtener_pelicula_por_id(self, pelicula_id):
+        return self.db.session.query(Pelicula).options(joinedload(Pelicula.generos)).filter_by(id=pelicula_id).first()
+
+    def eliminar_pelicula(self, pelicula_id):
+        # Obtener la película para eliminar
+        pelicula = self.obtener_pelicula_por_id(pelicula_id)
+        if pelicula:
+            self.db.session.delete(pelicula)
+        else:
+            raise ValueError("Película no encontrada")
+
+    def editar_pelicula(self, pelicula_id, nombre=None, duracion=None, sinopsis=None, anio=None, director=None, url_video=None, generos=None, imagen=None):
+        pelicula = self.obtener_pelicula_por_id(pelicula_id)
+        if not pelicula:
+            raise ValueError("Película no encontrada")
+
+        # Actualizamos solo los campos proporcionados
+        if nombre:
+            pelicula.nombre = nombre
+        if duracion:
+            pelicula.duracion = duracion
+        if sinopsis:
+            pelicula.sinopsis = sinopsis
+        if anio:
+            pelicula.anio = anio
+        if director:
+            pelicula.director = director
+        if url_video:
+            pelicula.url_video = url_video
+        if imagen is not None:
+            pelicula.imagen = imagen
+
+        # Actualizamos los géneros si se proporcionan
+        if generos is not None:
+            pelicula.generos.clear()  # Eliminamos las relaciones existentes
+            for genero_id in generos:
+                genero = Genero.query.get(genero_id)
+                if genero:
+                    pelicula.generos.append(genero)
+
+        # Guardamos los cambios
+        self.db.session.commit()
         return pelicula

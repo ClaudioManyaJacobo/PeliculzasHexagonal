@@ -15,6 +15,7 @@
                 <tr>
                     <th>ID</th>
                     <th>Nombre</th>
+                    <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
@@ -22,12 +23,20 @@
                     <tr>
                         <td>{{ genero.id }}</td>
                         <td>{{ genero.name }}</td>
+                        <td>
+                            <!-- Enlace para editar un género -->
+                            <a href="{{ url_for('genero_bp.editar_genero', genero_id=genero.id) }}" class="btn btn-warning">Editar</a>
+
+                            <!-- Formulario para eliminar un género -->
+                            <form action="{{ url_for('genero_bp.eliminar_genero', genero_id=genero.id) }}" method="POST" style="display:inline;">
+                                <button type="submit" class="btn btn-danger">Eliminar</button>
+                            </form>
+                        </td>
                     </tr>
                 {% endfor %}
             </tbody>
         </table>
         <a href="{{ url_for('genero_bp.mostrar_formulario_agregar') }}" class="btn btn-primary">Agregar Genero</a>
-        
     </div>
 </body>
 </html>

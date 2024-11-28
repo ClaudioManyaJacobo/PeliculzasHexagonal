@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #212121; /* Fondo oscuro */
+            color: #f8f9fa; /* Texto claro */
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            padding-top: 50px;
+        }
+        .error-container {
+            background-color: #dc3545; /* Fondo rojo para destacar el error */
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 600px;
+            margin: auto;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .error-container h1 {
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
+        .error-container p {
+            font-size: 1.2rem;
+        }
+        .error-container .btn {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="error-container">
+        <h1>Error</h1>
+        <p>{{ error_message }}</p>
+    </div>
+
+</body>
+</html>

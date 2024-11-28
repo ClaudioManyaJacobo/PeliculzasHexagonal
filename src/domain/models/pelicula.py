@@ -23,9 +23,7 @@ class Pelicula(db.Model):
         self.anio = anio
         self.director = director
         self.url_video = url_video
-        self.imagen = imagen  # Imagen binaria
+        self.imagen = imagen 
 
     def __repr__(self):
         return f"<Pelicula {self.nombre}>"
-
-

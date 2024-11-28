@@ -1,3 +1,4 @@
+from flask import Flask, jsonify, render_template, request
 from flask import Flask, jsonify
 from sqlalchemy.sql import text
 from src.infrastructure.db import db
@@ -22,6 +23,17 @@ with app.app_context():
     db.create_all()
     print("Tablas creadas si no existían.")
 
+# Manejo de errores generales
+@app.errorhandler(500)
+def internal_error(error):
+    """ Redirige a la página de error general cuando ocurre un error 500. """
+    return render_template('error.html', error_message='Ocurrió un error inesperado, por favor intente nuevamente más tarde.'), 500
+
+@app.errorhandler(404)
+def page_not_found(error):
+    """ Redirige a la página de error general cuando ocurre un error 404. """
+    return render_template('error.html', error_message='Página no encontrada.'), 404
+
 # Ruta de prueba para verificar la conexión a la base de datos
 @app.route('/')
 def conexion_exitosa():
@@ -35,6 +47,11 @@ def conexion_exitosa():
         return jsonify({"mensaje": "Conexión a la base de datos exitosa"}), 200
     except Exception as e:
         return jsonify({"error": "Error al conectar con la base de datos", "detalle": str(e)}), 500
+
+@app.route('/error')
+def error_page():
+    error_message = request.args.get('error_message', 'Ocurrió un error inesperado.')
+    return render_template('error.html', error_message=error_message)
 
 # Inicia la aplicación Flask
 if __name__ == '__main__':

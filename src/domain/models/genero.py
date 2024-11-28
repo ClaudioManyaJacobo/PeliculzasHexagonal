@@ -6,7 +6,7 @@ class Genero(db.Model):
     __tablename__ = 'generos'
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), nullable=False)
+    name = db.Column(db.String(100), nullable=False, unique=True)
 
     # Relación de muchos a muchos con Pelicula usando la tabla intermedia 'pelicula_genero'
     peliculas = db.relationship('Pelicula', secondary='pelicula_genero', back_populates='generos')
@@ -15,4 +15,4 @@ class Genero(db.Model):
         self.name = name
 
     def __repr__(self):
-        return f"<Genero {self.name}>"
+        return f"{self.name} "

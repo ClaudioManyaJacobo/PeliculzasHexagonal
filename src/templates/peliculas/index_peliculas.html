@@ -40,6 +40,7 @@
                                 <iframe 
                                     width="280" 
                                     height="158" 
+                                    style="display: block; margin-left: auto; margin-right: auto;"
                                     src="{{ pelicula.url_video }}" 
                                     title="YouTube video player" 
                                     frameborder="0" 
@@ -48,6 +49,7 @@
                                     allowfullscreen>
                                 </iframe>
                             </td>
+                            <a href="{{ url_for('pelicula_bp.mostrar_pelicula', pelicula_id=pelicula.id) }}" class="btn btn-info mt-2">Ver Detalles</a>
                         </div>
                     </div>
                 </div>
