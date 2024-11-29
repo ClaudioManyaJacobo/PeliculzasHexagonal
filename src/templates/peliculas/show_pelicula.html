@@ -34,6 +34,19 @@
                                 <span>{{ actor }}</span>{% if not loop.last %}, {% endif %}
                             {% endfor %}
                         </p>
+                        <p><strong>Plataformas:</strong> 
+                            {% for plataforma in pelicula.plataformas %}
+                                <span>
+                                    <a href="{{ plataforma.url }}" target="_blank" title="Ir a {{ plataforma.nombre }}">
+                                        {% if plataforma.imagen %}
+                                            <img src="data:image/jpeg;base64,{{ plataforma.imagen }}"style="width: 30px; height: 30px; object-fit: cover; margin-right: 5px; vertical-align: middle;">
+                                        {% endif %}
+                                    </a>
+                                </span>
+                                {% if not loop.last %}, {% endif %}
+                            {% endfor %}
+                        </p>
+                        
                         <iframe 
                             width="360" 
                             height="202" 

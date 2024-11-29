@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agregar Plataforma</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <h1>Agregar una Nueva Plataforma</h1>
+    <form action="{{ url_for('plataforma_bp.agregar_plataforma') }}" method="post" enctype="multipart/form-data">
+        <div>
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" required>
+        </div>
+        <div>
+            <label for="url_plataforma">URL de la Plataforma:</label>
+            <input type="text" id="url_plataforma" name="url_plataforma">
+        </div>
+        <div>
+            <label for="imagen">Imagen:</label>
+            <input type="file" id="imagen" name="imagen" accept="image/*" required>
+        </div>
+        <div>
+            <button type="submit">Agregar Plataforma</button>
+        </div>
+    
+</body>
+</html>

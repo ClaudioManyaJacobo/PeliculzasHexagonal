@@ -2,6 +2,7 @@
 from src.domain.models.pelicula import Pelicula
 from src.domain.models.genero import Genero
 from src.domain.models.actor import Actor
+from src.domain.models.plataforma import Plataforma
 from sqlalchemy.sql import text
 from sqlalchemy.orm import joinedload
 
@@ -17,7 +18,7 @@ class PeliculaRepositorySQL:
         return peliculas
 
     # Método para agregar una nueva película a la base de datos
-    def agregar_pelicula(self, nombre, duracion, sinopsis, anio, director, url_video, generos, imagen, actores):
+    def agregar_pelicula(self, nombre, duracion, sinopsis, anio, director, url_video, generos, imagen, actores, plataformas):
         # Verifica si ya existe una película con el mismo nombre
         pelicula_existente = Pelicula.query.filter_by(nombre=nombre).first()
         if pelicula_existente:
@@ -45,6 +46,11 @@ class PeliculaRepositorySQL:
             actor = Actor.query.get(actor_id)
             if actor:
                 pelicula.actores.append(actor)
+        
+        for plataforma_id in plataformas:
+            plataforma = Plataforma.query.get(plataforma_id)
+            if plataforma:
+                pelicula.plataformas.append(plataforma)
 
         # Agrega la nueva película a la sesión y la guarda en la base de datos
         self.db.session.add(pelicula)
@@ -69,7 +75,7 @@ class PeliculaRepositorySQL:
             raise ValueError("Película no encontrada")
 
     # Método para editar los detalles de una película existente
-    def editar_pelicula(self, pelicula_id, nombre=None, duracion=None, sinopsis=None, anio=None, director=None, url_video=None, generos=None, imagen=None, actores=None):
+    def editar_pelicula(self, pelicula_id, nombre=None, duracion=None, sinopsis=None, anio=None, director=None, url_video=None, generos=None, imagen=None, actores=None, plataformas=None):
         # Obtiene la película a editar por su ID
         pelicula = self.obtener_pelicula_por_id(pelicula_id)
         if not pelicula:
@@ -106,6 +112,13 @@ class PeliculaRepositorySQL:
                 actor = Actor.query.get(actor_id)
                 if actor:
                     pelicula.actores.append(actor)
+
+        if plataformas is not None:
+            pelicula.plataformas.clear()
+            for plataforma_id in plataformas:
+                plataforma = Plataforma.query.get(plataforma_id)
+                if plataforma:
+                    pelicula.plataformas.append(plataforma)
 
         # Guarda los cambios realizados en la base de datos
         self.db.session.commit()

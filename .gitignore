@@ -1,5 +1,59 @@
-venv/
+# Entorno de Python
 .env
-__pycache__/
-*.py[cod]
+instance/
 
+# Archivos de compilación y caché
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Carpeta de caché de pip
+pip-wheel-metadata/
+
+# Entornos virtuales
+venv/
+ENV/
+env/
+venv.bak/
+
+# Archivos de configuración de IDEs
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Archivos de configuración de sistemas de desarrollo
+*.log
+*.sqlite
+*.db
+
+# Archivos de prueba
+*.cover
+nosetests.xml
+coverage.xml
+*.coveragerc
+*.tox
+*.nox
+*.coverage
+*.hypothesis/
+
+# Archivos de cache de pruebas
+*.pytest_cache/
+
+# Archivos de distribución
+dist/
+build/
+*.egg-info/
+
+# Archivos de sistema operativo
+.DS_Store
+Thumbs.db
+
+# Archivos específicos de Flask (si aplicable)
+instance/
+*.log
+
+# Archivos de configuración de depuración (si no quieres subirlos)
+*.env

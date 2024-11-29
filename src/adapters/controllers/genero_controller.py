@@ -6,9 +6,6 @@ genero_bp = Blueprint('genero_bp', __name__)
 genero_repo = GeneroRepositorySQL(db)
 
 
-##########LAS#########
-######## RUTAS########
-
 @genero_bp.route('/generos', methods=['GET'])
 def obtener_generos():
     generos = genero_repo.obtener_todos_los_generos()

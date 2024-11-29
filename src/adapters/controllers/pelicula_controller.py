@@ -2,6 +2,7 @@ from flask import Blueprint, request, jsonify, render_template, redirect, url_fo
 from src.adapters.repositories.pelicula_repository_sql import PeliculaRepositorySQL
 from src.adapters.repositories.genero_repository_sql import GeneroRepositorySQL
 from src.adapters.repositories.actor_repository_sql import ActorRepositorySQL
+from src.adapters.repositories.plataforma_repository_sql import PlataformaRepositorySQL
 from src.infrastructure.db import db
 import re
 import base64
@@ -12,6 +13,7 @@ pelicula_bp = Blueprint('pelicula_bp', __name__)
 pelicula_repo = PeliculaRepositorySQL(db)
 genero_repo = GeneroRepositorySQL(db)
 actor_repo = ActorRepositorySQL(db)
+plataforma_repo = PlataformaRepositorySQL(db)
 
 # Función para convertir la URL de YouTube a formato embed
 def convertir_a_embed(url):
@@ -27,12 +29,11 @@ def convertir_a_embed(url):
     return url
 
 # Función para validar campos obligatorios
-def validar_campos_obligatorios(campos, datos):
+def validar_campos_obligatorios(campos, datos, archivos=None):
     for campo in campos:
         if not datos.get(campo):
             return campo
     return None
-
 
 # Función para convertir una película a un formato dict
 def convertir_pelicula_a_dict(pelicula):
@@ -46,11 +47,18 @@ def convertir_pelicula_a_dict(pelicula):
         'url_video': convertir_a_embed(pelicula.url_video),
         'generos': [genero.name for genero in pelicula.generos],
         'actores': [actor.nombre for actor in pelicula.actores],
+        "plataformas": [
+            {
+                "nombre": plataforma.nombre,
+                "imagen": base64.b64encode(plataforma.imagen).decode('utf-8') if plataforma.imagen else None,
+                "url": plataforma.url_plataforma
+            }
+            for plataforma in pelicula.plataformas
+        ],
         'imagen': base64.b64encode(pelicula.imagen).decode('utf-8') if pelicula.imagen else None
     }
 
-##########LAS#########
-######## RUTAS########
+###################RUTAS#####################
 
 # Ruta para obtener todas las películas y mostrarlas en la página de inicio
 @pelicula_bp.route('/peliculas', methods=['GET'])
@@ -65,7 +73,8 @@ def obtener_peliculas():
 def mostrar_formulario_agregar():
     generos = genero_repo.obtener_todos_los_generos()
     actores = actor_repo.obtener_todos_los_actores()
-    return render_template('/peliculas/add_peliculas.html', generos=generos, actores=actores)
+    plataformas = plataforma_repo.obtener_todas_las_plataformas()
+    return render_template('/peliculas/add_peliculas.html', generos=generos, actores=actores, plataformas=plataformas)
 
 
 @pelicula_bp.route('/peliculas/agregar', methods=['POST'])
@@ -75,6 +84,7 @@ def agregar_pelicula():
     faltante = validar_campos_obligatorios(campos_obligatorios, request.form)
     if faltante:
         return jsonify({'error': f'El campo {faltante} es obligatorio'}), 400
+
 
     # Obtiene los datos del formulario
     nombre = request.form['nombre']
@@ -91,11 +101,11 @@ def agregar_pelicula():
     imagen = request.files.get('imagen')
     imagen_binaria = imagen.read() if imagen else None
     actores = [int(id) for id in request.form.getlist('actores')]
+    plataformas = [int(id) for id in request.form.getlist('plataformas')]
 
     # Llama al repositorio para agregar la película
     pelicula_repo.agregar_pelicula(
-        nombre, duracion, sinopsis, anio, director, url_video, generos, imagen=imagen_binaria, actores=actores
-    )
+        nombre, duracion, sinopsis, anio, director, url_video, generos, imagen=imagen_binaria, actores=actores, plataformas=plataformas)
 
     return redirect(url_for('pelicula_bp.obtener_peliculas'))
 
@@ -105,6 +115,8 @@ def agregar_pelicula():
 def mostrar_pelicula(pelicula_id):
     # Busca la película por ID
     pelicula = pelicula_repo.obtener_pelicula_por_id(pelicula_id)
+    # Obtener la imagen de la pelicula
+    
     if not pelicula:
         # Devuelve una página de error si no se encuentra la película
         return render_template('error.html', mensaje="Película no encontrada")

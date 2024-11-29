@@ -1,10 +1,11 @@
-from flask import Flask, jsonify, render_template, request
+from flask import Flask, jsonify, render_template, request, send_from_directory
 from sqlalchemy.sql import text
 from src.infrastructure.db import db
 from src.adapters.controllers.pelicula_controller import pelicula_bp
 from src.adapters.controllers.genero_controller import genero_bp
 from src.adapters.controllers.actor_controller import actor_bp
-
+from src.adapters.controllers.plataforma_controller import plataforma_bp
+import os
 # Inicializa la aplicación Flask
 app = Flask(__name__)
 
@@ -19,6 +20,7 @@ db.init_app(app)
 app.register_blueprint(pelicula_bp)
 app.register_blueprint(genero_bp)
 app.register_blueprint(actor_bp)
+app.register_blueprint(plataforma_bp)
 
 with app.app_context():
     db.create_all()
@@ -67,6 +69,9 @@ def handle_exception(e):
     # Redirige al usuario a la página de error con un mensaje en español
     return render_template('error.html', error_message=error_message), 500
 
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
 # Inicia la aplicación Flask
 if __name__ == '__main__':
